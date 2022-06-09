@@ -1,15 +1,16 @@
 import axios, { AxiosInstance } from "axios";
+import https from 'http';
 // const config = require("../config");
 
 const baseUrl = process.env.NEXT_REACT_APP_API_URL;
 const token = process.env.NEXT_TOKEN_FB;
 
-
-
 export let API: AxiosInstance = undefined!;
 
+console.log(baseUrl)
+
 API = axios.create({
-  baseURL: baseUrl,
+  baseURL:  baseUrl,
   headers: {
     "Content-Type": "application/json",
   },

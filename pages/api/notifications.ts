@@ -6,9 +6,9 @@ import { API } from "../../services/API";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     switch (req.method) {
         case "GET":
-            return res.status(200).send("Juancito te amo!!");
+            return getPrueba()
         case "POST":
-            return postNoti2();
+            return postNoti();
         //   case "PUT":
         //     return insUpdAppointment();
         //   case "DELETE":
@@ -17,41 +17,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 
-    async function postNoti2() {
-        try {
-               const resp = await API.post("/messages", {
-                //acaaaaaa
-                messaging_product: "whatsapp",
-                to: "573504247713",
-                type: "template",
-                template: {
-                    name: "temporal_code_password",
-                    language: {
-                        code: "es_MX"
-                    },
-                    components: [
-                        {
-                            type: "body",
-                            parameters: [
-                                {
-                                    type: "text",
-                                    text: "5678"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            })
-
-            console.log(resp,'respp')
-            
-            res.status(200).json({ resp:"notification"});
-        } catch (error) {
-            //    console.log(error)
-            res.status(500).send(error);
-        }
+    async function getPrueba() {
+        res.status(200).json({
+            NEXT_REACT_APP_API_URL: process.env.NEXT_REACT_APP_API_URL,
+            NEXT_TOKEN_FB: process.env.NEXT_TOKEN_FB,
+        })
     }
-
 
     async function postNoti() {
         const notification: INotification = req.body;
@@ -67,9 +38,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
 
         try {
-            //    const resp = await API.post("/messages", requestWhatsApp)
-            API.post("/messages", requestWhatsApp).then(console.log);
-            res.json(notification);
+            const resp = await API.post("/messages", requestWhatsApp)
+
             res.status(200).json(notification);
         } catch (error) {
             //    console.log(error)
